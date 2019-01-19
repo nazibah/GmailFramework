@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Gmail Automation Script " parallel="false">
+
+    <parameter name="useCloudEnv" value="false"/>
+    <parameter name="userName" value="nazibah"/>
+    <parameter name="key" value="53197c7f-ceb3-4fd0-81e9-ff02a894c5f7"/>
+
+
+    <parameter name="OS" value="macOS 10.14"/>
+    <parameter name="browser" value="chrome"/>
+    <parameter name="browserVersion" value="64.0"/>
+    <parameter name="url" value="https://www.gmail.com"/>
+
+    <test name = "Gmail Home">
+        <classes>
+            <class name="BrokenLink.TestBrokenLink"/>
+            <class name="Database.DatabaseTest"/>
+            <class name="DataDrivenTest.XLSXTest"/>
+            <class name="GmailLogin.GmailTestLogin"/>
+            <class name="GoogleSheet.TestGoogleSheet"/>
+            <class name="TestPages.TestCreateAccount"/>
+            <class name="TestPages.TestGoogleApps"/>
+            <class name="TestPages.TestHomePage"/>
+            <class name="TestPages.TestSignInPage"/>
+
+
+        </classes>
+    </test>
+
+</suite>

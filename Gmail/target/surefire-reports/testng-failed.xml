@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Gmail Automation Script ]" guice-stage="DEVELOPMENT" verbose="0">
+  <parameter name="useCloudEnv" value="false"/>
+  <parameter name="OS" value="macOS 10.14"/>
+  <parameter name="browser" value="chrome"/>
+  <parameter name="browserVersion" value="64.0"/>
+  <parameter name="userName" value="nazibah"/>
+  <parameter name="key" value="53197c7f-ceb3-4fd0-81e9-ff02a894c5f7"/>
+  <parameter name="url" value="https://www.gmail.com"/>
+  <test thread-count="5" name="Gmail Home(failed)" verbose="0">
+    <classes>
+      <class name="TestPages.TestHomePage">
+        <methods>
+          <include name="gmailLogin"/>
+          <include name="TestShowGooglePlus"/>
+          <include name="TestSendEmailRecipientEmail"/>
+          <include name="TestShowUserAccount"/>
+          <include name="test4"/>
+          <include name="TestGoogleApps"/>
+          <include name="test3"/>
+          <include name="test2"/>
+          <include name="TestSendEmailSendButton"/>
+          <include name="extentSetup"/>
+          <include name="TestShowGoogleDrive"/>
+          <include name="cleanUp"/>
+          <include name="TestSendEmailemailSubject"/>
+          <include name="TestShowGoogleApps"/>
+          <include name="TestEmailStarred"/>
+          <include name="TestSendEmailCompose"/>
+          <include name="TestShowGooglePhotos"/>
+          <include name="setUp"/>
+          <include name="TestSendEmailemailBody"/>
+          <include name="TestShowGoogleSearch"/>
+          <include name="TestShowGoogleContacts"/>
+          <include name="TestEmailSettings"/>
+          <include name="TestShowPlayStore"/>
+          <include name="startExtent"/>
+          <include name="TestShowGoogleNews"/>
+          <include name="test1"/>
+          <include name="TestShowYouTube"/>
+          <include name="test5"/>
+          <include name="TestShowGoogleCalender"/>
+          <include name="TestEmailOlderMessages"/>
+          <include name="generateReport"/>
+          <include name="initializeElement"/>
+          <include name="Email"/>
+          <include name="TestShowGoogleMaps"/>
+          <include name="TestShowGoogleTranslate"/>
+        </methods>
+      </class> <!-- TestPages.TestHomePage -->
+    </classes>
+  </test> <!-- Gmail Home(failed) -->
+</suite> <!-- Failed suite [Gmail Automation Script ] -->
