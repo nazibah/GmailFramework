@@ -10,8 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>Generic</module>
-        <module>Amex</module>
         <module>Gmail</module>
+        <module>RestAPI</module>
     </modules>
     <dependencyManagement>
         <dependencies>

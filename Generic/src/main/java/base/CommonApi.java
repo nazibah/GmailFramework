@@ -5,8 +5,6 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -22,7 +20,6 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import reporting.ExtentManager;
 import reporting.ExtentTestManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,19 +29,60 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class CommonApi {
     public WebDriver driver = null;
+    //ExtentReport Start
     public static ExtentReports extent;
-    public static Logger logger = Logger.getLogger(CommonApi.class);
-//        public String browserstack_username= "nazibahfariha1";
-//    public String browserstack_accesskey = "4Xys5RotM8UkWW9FfbjT";
-//    public String saucelabs_username = "nazibah";
-//    public String saucelabs_accesskey = "53197c7f-ceb3-4fd0-81e9-ff02a894c5f7";
+    @BeforeSuite
+    public void extentSetup(ITestContext context) {
+        ExtentManager.setOutputDirectory(context);
+        extent = ExtentManager.getInstance();
+    }
+    @BeforeMethod
+    public void startExtent(Method method) {
+        String className = method.getDeclaringClass().getSimpleName();
+        String methodName = method.getName().toLowerCase();
+        ExtentTestManager.startTest(method.getName());
+        ExtentTestManager.getTest().assignCategory(className);
+    }
+    protected String getStackTrace(Throwable t) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        t.printStackTrace(pw);
+        return sw.toString();
+    }
+    @AfterMethod
+    public void afterEachTestMethod(ITestResult result) {
+        //ExtentTestManager.getTest().getTest().setStartedTime(getTime(result.getStartMillis()));
+        //ExtentTestManager.getTest().getTest().setEndedTime(getTime(result.getEndMillis()));
+
+        for (String group : result.getMethod().getGroups()) {
+            ExtentTestManager.getTest().assignCategory(group);
+        }
+
+        if (result.getStatus() == 1) {
+            ExtentTestManager.getTest().log(LogStatus.PASS, "Test Passed");
+        } else if (result.getStatus() == 2) {
+            ExtentTestManager.getTest().log(LogStatus.FAIL, getStackTrace(result.getThrowable()));
+        } else if (result.getStatus() == 3) {
+            ExtentTestManager.getTest().log(LogStatus.SKIP, "Test Skipped");
+        }
+        ExtentTestManager.endTest();
+        extent.flush();
+        if (result.getStatus() == ITestResult.FAILURE) {
+            captureScreenshot(driver, result.getName());
+        }
+        driver.quit();
+    }
+   // public static Logger logger = Logger.getLogger(CommonApi.class);
+        public String browserstack_username= "nazibahfariha1";
+    public String browserstack_accesskey = "4Xys5RotM8UkWW9FfbjT";
+    public String saucelabs_username = "nazibah";
+    public String saucelabs_accesskey = "53197c7f-ceb3-4fd0-81e9-ff02a894c5f7";
 
 
     @Parameters({"useCloudEnv","userName","key","OS","browser","browserVersion","url"})
@@ -54,15 +92,15 @@ public class CommonApi {
                       @Optional("64.0") String browserVersion, @Optional("https://www.gmail.com") String url)throws IOException {
         if(useCloudEnv==true){
             //run on cloud
-            logger.setLevel(Level.INFO);
-            logger.info("Test is running on cloud env");
+            //logger.setLevel(Level.INFO);
+            //logger.info("Test is running on cloud env");
             getCloudDriver(userName,key,OS,browser,browserVersion);
             System.out.println("Tests is running on Saucelabs, please wait for result");
 
         }else{
             //run on local
-            logger.setLevel(Level.INFO);
-            logger.info("Test is running on local env");
+            //logger.setLevel(Level.INFO);
+            //logger.info("Test is running on local env");
             getLocalDriver(OS, browser);
         }
         driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
@@ -98,7 +136,7 @@ public class CommonApi {
     }
     @AfterMethod
     public void cleanUp() {
-        driver.close();
+        driver.quit();
     }
 
     public WebDriver getCloudDriver(String userName,String key,
@@ -347,56 +385,6 @@ public class CommonApi {
         splitString = StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(st), ' ');
         return splitString;
     }
-    //    @BeforeSuite
-//    public void extentSetup(ITestContext context) {
-//        ExtentManager.setOutputDirectory(context);
-//        extent = ExtentManager.getInstance();
-//    }
-//    @BeforeMethod
-//    public void startExtent(Method method) {
-//        String className = method.getDeclaringClass().getSimpleName();
-//        String methodName = method.getName().toLowerCase();
-//        ExtentTestManager.startTest(method.getName());
-//        ExtentTestManager.getTest().assignCategory(className);
-//    }
-//    protected String getStackTrace(Throwable t) {
-//        StringWriter sw = new StringWriter();
-//        PrintWriter pw = new PrintWriter(sw);
-//        t.printStackTrace(pw);
-//        return sw.toString();
-//    }
-
-//    public void afterEachTestMethod(ITestResult result) {
-//        ExtentTestManager.getTest().getTest().setStartedTime(getTime(result.getStartMillis()));
-//        ExtentTestManager.getTest().getTest().setEndedTime(getTime(result.getEndMillis()));
-//
-//        for (String group : result.getMethod().getGroups()) {
-//            ExtentTestManager.getTest().assignCategory(group);
-//        }
-//
-//        if (result.getStatus() == 1) {
-//            ExtentTestManager.getTest().log(LogStatus.PASS, "Test Passed");
-//        } else if (result.getStatus() == 2) {
-//            ExtentTestManager.getTest().log(LogStatus.FAIL, getStackTrace(result.getThrowable()));
-//        } else if (result.getStatus() == 3) {
-//            ExtentTestManager.getTest().log(LogStatus.SKIP, "Test Skipped");
-//        }
-//        ExtentTestManager.endTest();
-//        extent.flush();
-//        if (result.getStatus() == ITestResult.FAILURE) {
-//            captureScreenshot(driver, result.getName());
-//        }
-//        driver.quit();
-//    }
-//    @AfterSuite
-//    public void generateReport() {
-//        extent.close();
-//    }
-//    public Date getTime(long millis) {
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(millis);
-//        return calendar.getTime();
-//    }
 
 }
 

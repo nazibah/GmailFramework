@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Employee Rest API Automation Script " parallel="false">
+
+    <parameter name="useCloudEnv" value="false"/>
+    <parameter name="userName" value="nazibah"/>
+    <parameter name="key" value="53197c7f-ceb3-4fd0-81e9-ff02a894c5f7"/>
+    <parameter name="OS" value="macOS 10.14"/>
+    <parameter name="browser" value="chrome"/>
+    <parameter name="browserVersion" value="64.0"/>
+    <parameter name="url" value="https://www.piit.us"/>
+
+    <test name = "Employee Information Services">
+        <classes>
+            <!--<class name="rest.SingleEmployeeResource"/>-->
+            <!--<class name="rest.AllEmployeeRestServices"/>-->
+        </classes>
+    </test>
+
+</suite>
